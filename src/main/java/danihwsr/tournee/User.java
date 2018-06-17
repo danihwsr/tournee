@@ -8,6 +8,7 @@ public class User {
     private String nickName;
     private String eMail;
 
+    public User(){}
 
     public User(String firstName, String lastName, String nickName, String eMail) {
         this.setFirstName(firstName);
