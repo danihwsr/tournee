@@ -1,13 +1,8 @@
 package danihwsr.tournee;
 
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List; // interface
-import java.util.ArrayList; // implements List
-import java.util.stream.Stream;
 
 // due to springframework.boot.autoconfigure, this controller will be automatically registered
 @RestController

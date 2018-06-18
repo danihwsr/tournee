@@ -15,7 +15,8 @@ public class UserService {
 
     public List<User> createUser(User user) throws UserAlreadyExistsException {
         if (this.userRepository.exist(user.getNickName(), user.geteMail()) != null) {
-            throw new UserAlreadyExistsException(user);
+            String msg = String.format("User '%s' with the eMail '%s' already exists.", user.getNickName(), user.geteMail());
+            throw new UserAlreadyExistsException(msg);
         }
 
         this.userRepository.save(user);
