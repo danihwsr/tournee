@@ -1,6 +1,8 @@
 package danihwsr.tournee;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List; // interface
@@ -15,13 +17,12 @@ public class UserController {
 
     private List<User> users;
 
-    public UserController() {
-        users = new ArrayList<>();
+    private UserService userService;
+    private UserRepository userRepository;
 
-        users.add(new User("daniel", "knauser", "dooniel", "dooniel@web.de"));
-        users.add(new User("max", "mustermann", "xXx_max_xXx", "max@gmail.com"));
-        users.add(new User("max", "musterfrau", "69_max_69", "maxi@hotmail.de"));
-        users.add(new User("peter", "meier", "the_meiernator", "meier@peter.org"));
+    public UserController(UserService userService, UserRepository userRepository) {
+        this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     // subroute: get /users/all
@@ -30,6 +31,8 @@ public class UserController {
         // when declaring class attributes as private
         //+ make sure to implement public getters for the attribute
         // return value is automatically parsed to json ({class.Attribute: value, ...})
+        users = this.userRepository.findAll();
+
         return users;
     }
 
@@ -48,10 +51,8 @@ public class UserController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     // try to parse the json object in the request body to a User instance
-    public List<User> createUser(@RequestBody User user) {
-        users.add(user);
-
-        return users;
+    public List<User> createUser(@RequestBody User user) throws UserAlreadyExistsException {
+        return this.userService.createUser(user);
     }
 
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)

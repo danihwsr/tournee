@@ -1,8 +1,13 @@
 package danihwsr.tournee;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "users")
 public class User {
 
-    private int id;
+    @Id
+    private String id;
     private String firstName;
     private String lastName;
     private String nickName;
@@ -15,6 +20,10 @@ public class User {
         this.setLastName(lastName);
         this.setNickName(nickName);
         this.setEmail(eMail);
+    }
+
+    public void setId(String input) {
+        this.id = input;
     }
 
     public void setFirstName(String input) {
@@ -31,6 +40,10 @@ public class User {
 
     public void setEmail(String input) {
         this.eMail = input;
+    }
+
+    public String getId() {
+        return this.id;
     }
 
     public String getFirstName() {
