@@ -1,5 +1,7 @@
-package danihwsr.tournee;
+package danihwsr.tournee.web;
 
+import danihwsr.tournee.UserAlreadyExistsException;
+import danihwsr.tournee.UserNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.beans.BeanInfo;
@@ -29,7 +31,7 @@ public class UserService {
     }
 
     public User getUserByNickname(String nick) throws UserNotFoundException {
-        User u = this.userRepository.getByNickName(nick);
+        User u = this.userRepository.getByNickname(nick);
 
         if ( u != null ) {
             return u;
@@ -61,12 +63,12 @@ public class UserService {
     public User updateUser(String id, User user) throws UserNotFoundException, UserAlreadyExistsException {
 
         if ( !this.exists(user) ) {
-            if ( this.userRepository.findById(id).isPresent() ) {
+            if ( !this.userRepository.findById(id).isPresent() ) {
                 String msg = String.format("User with id '%s' not found.", id);
                 throw new UserNotFoundException(msg);
             }
             try {
-                upsert(this.userRepository.findById(id).get(), user);
+                this.upsert(this.userRepository.findById(id).get(), user);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -137,8 +139,8 @@ public class UserService {
 
     private boolean exists(User user) throws UserAlreadyExistsException {
 
-        if ( this.userRepository.getByNickName(user.getNickName()) != null ) {
-            String msg = String.format("The name '%s' is already taken.", user.getNickName());
+        if ( this.userRepository.getByNickname(user.getNickname()) != null ) {
+            String msg = String.format("The name '%s' is already taken.", user.getNickname());
             throw new UserAlreadyExistsException(msg);
         } else if ( this.userRepository.getByMail(user.getMail()) != null ) {
             String msg = String.format("The mail address '%s' is already in use.", user.getMail());
