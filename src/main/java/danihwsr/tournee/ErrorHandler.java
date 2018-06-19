@@ -26,7 +26,7 @@ public class ErrorHandler {
 
     }
 
-    @ExceptionHandler(UserAlreadyExistsException.class)
+    @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> error(Exception e) {
         return new ResponseEntity<>(new ErrorResponse(e), HttpStatus.BAD_REQUEST);
     }
