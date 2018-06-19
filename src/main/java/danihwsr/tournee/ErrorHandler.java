@@ -17,6 +17,10 @@ public class ErrorHandler {
                 this.code = 500;
                 this.message = e.getMessage();
                 this.error = "user already exists";
+            } else if (e instanceof UserNotFoundException) {
+                this.code = 500;
+                this.message = e.getMessage();
+                this.error = "user not found";
             }
         }
 

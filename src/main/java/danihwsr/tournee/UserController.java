@@ -13,11 +13,9 @@ public class UserController {
     private List<User> users;
 
     private UserService userService;
-    private UserRepository userRepository;
 
-    public UserController(UserService userService, UserRepository userRepository) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.userRepository = userRepository;
     }
 
     // subroute: get /users/all
@@ -26,22 +24,13 @@ public class UserController {
         // when declaring class attributes as private
         //+ make sure to implement public getters for the attribute
         // return value is automatically parsed to json ({class.Attribute: value, ...})
-        users = this.userRepository.findAll();
-
-        return users;
+        return this.userService.getAllUsers();
     }
 
     // get /users/{nickName}
     @RequestMapping(value = "/{nickName}", method = RequestMethod.GET)
-    public User getUserByNick(@PathVariable String nickName) {
-
-        for (User user : users) {
-            if (user.getNickName().equals(nickName)) {
-                return user;
-            }
-        }
-
-        return new User();
+    public User getUserByNick(@PathVariable String nickName) throws UserNotFoundException {
+        return this.userService.getUserByNickname(nickName);
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -50,18 +39,14 @@ public class UserController {
         return this.userService.createUser(user);
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public List<User> deleteUser(@RequestBody User user) {
-        int i = 0;
-        for (User u: users) {
-            if (u.getNickName().equals(user.getNickName())) {
-                users.remove(i);
-                break;
-            }
-            i++;
-        }
+    @RequestMapping(value = "/delete/{userId}", method = RequestMethod.DELETE)
+    public List<User> deleteUser(@PathVariable String userId) {
+        return this.userService.deleteUser(userId);
+    }
 
-        return users;
+    @RequestMapping(value = "/update/{userId}", method = RequestMethod.PUT)
+    public User updateUser(@PathVariable String userId, @RequestBody User user) throws Exception {
+        return this.userService.updateUser(userId, user);
     }
 
 }

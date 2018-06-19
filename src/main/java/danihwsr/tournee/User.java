@@ -11,15 +11,15 @@ public class User {
     private String firstName;
     private String lastName;
     private String nickName;
-    private String eMail;
+    private String mail;
 
     public User(){}
 
-    public User(String firstName, String lastName, String nickName, String eMail) {
+    public User(String firstName, String lastName, String nickName, String mail) {
         this.setFirstName(firstName);
         this.setLastName(lastName);
         this.setNickName(nickName);
-        this.setEmail(eMail);
+        this.setMail(mail);
     }
 
     public void setId(String input) {
@@ -38,8 +38,8 @@ public class User {
         this.nickName = input;
     }
 
-    public void setEmail(String input) {
-        this.eMail = input;
+    public void setMail(String input) {
+        this.mail = input;
     }
 
     public String getId() {
@@ -58,7 +58,20 @@ public class User {
         return this.nickName;
     }
 
-    public String geteMail() {
-        return this.eMail;
+    public String getMail() {
+        return this.mail;
+    }
+
+    @Override
+    public String toString() {
+        String msg = String.format("ID: %s\nFirstName: %s\nLastName: %s\nNickName: %s\nEmail: %s\n",
+                this.getId(),
+                this.getFirstName(),
+                this.getLastName(),
+                this.getNickName(),
+                this.getMail()
+        );
+
+        return msg;
     }
 }
