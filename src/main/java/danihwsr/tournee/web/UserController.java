@@ -1,8 +1,13 @@
-package danihwsr.tournee;
+package danihwsr.tournee.web;
 
+import danihwsr.tournee.UserAlreadyExistsException;
+import danihwsr.tournee.UserNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List; // interface
+import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
 
 // due to springframework.boot.autoconfigure, this controller will be automatically registered
 @RestController
@@ -11,8 +16,8 @@ import java.util.List; // interface
 public class UserController {
 
     private List<User> users;
-
     private UserService userService;
+    private Validator v = Validation.buildDefaultValidatorFactory().getValidator();
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -45,7 +50,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/update/{userId}", method = RequestMethod.PUT)
-    public User updateUser(@PathVariable String userId, @RequestBody User user) throws Exception {
+    public User updateUser(@PathVariable String userId, @RequestBody @ModelAttribute("User") @Valid User user) throws Exception {
         return this.userService.updateUser(userId, user);
     }
 
