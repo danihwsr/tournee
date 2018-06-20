@@ -16,11 +16,15 @@ public class ErrorHandler {
             if (e instanceof UserAlreadyExistsException) {
                 this.code = 500;
                 this.message = e.getMessage();
-                this.error = "user already exists";
+                this.error = "username already exists";
             } else if (e instanceof UserNotFoundException) {
                 this.code = 500;
                 this.message = e.getMessage();
                 this.error = "user not found";
+            } else if (e instanceof MailAlreadyExistsException) {
+                this.code = 500;
+                this.message = e.getMessage();
+                this.error = "mail address already exists";
             }
         }
 

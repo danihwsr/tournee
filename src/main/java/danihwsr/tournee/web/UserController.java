@@ -40,7 +40,7 @@ public class UserController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     // try to parse the json object in the request body to a User instance
-    public List<User> createUser(@RequestBody User user) throws UserAlreadyExistsException {
+    public List<User> createUser(@RequestBody User user) throws Exception {
         return this.userService.createUser(user);
     }
 
@@ -50,7 +50,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/update/{userId}", method = RequestMethod.PUT)
-    public User updateUser(@PathVariable String userId, @RequestBody @ModelAttribute("User") @Valid User user) throws Exception {
+    public User updateUser(@PathVariable String userId, @RequestBody User user) throws Exception {
         return this.userService.updateUser(userId, user);
     }
 

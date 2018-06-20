@@ -10,96 +10,107 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
-@Data
-@NoArgsConstructor
-@RequiredArgsConstructor
+//@Data
+//@NoArgsConstructor
+//@RequiredArgsConstructor
 @Document(collection = "users")
 public class User {
 
     // @RequiredArgsConstructor: no args constructor needed for this field, hence not final
     // arg values are passed to a constructor in the order they are declared in the class
     private @Id String id;
-    @NonNull
-    @NotNull(message = "Please provide a first name address.")
+    //@NonNull
+    //@NotNull(message = "Please provide a first name address.")
     private String firstname;
-    @NonNull
-    @NotNull(message = "Please provide a last name address.")
+    //@NonNull
+    //@NotNull(message = "Please provide a last name address.")
     private String lastname;
-    @NonNull
-    @NotNull(message = "Please provide a nick name address.")
+    //@NonNull
+    //@NotNull(message = "Please provide a nick name address.")
     private String nickname;
-    @Email(message = "The email address you provided is invalid.")
-    @NotNull(message = "Please provide an email address.")
-    @NonNull
+    //@Email(message = "The email address you provided is invalid.")
+    //@NotNull(message = "Please provide an email address.")
+    //@NonNull
     private String mail;
-    @NonNull
-    @NotNull()
-    @Size(min = 13, max = 125, message = "Please provide an age beetween 13 and 125.")
+    //@NonNull
+    //@NotNull()
+    //@Size(min = 13, max = 125, message = "Please provide an age beetween 13 and 125.")
     private int age;
 
-//    public User(String firstname, String lastname, String nickname, String mail, int age) {
-//        this.firstname = firstname;
-//        this.lastname = lastname;
-//        this.nickname = nickname;
-//        this.mail = mail;
-//        this.age = age;
+    public User(){}
 
-//        this.setFirstName(firstName);
-//        this.setLastName(lastName);
-//        this.setNickName(nickName);
+    public User(String firstname, String lastname, String nickname, String mail, int age) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.nickname = nickname;
+        this.mail = mail;
+        this.age = age;
+
+//        this.setFirstname(firstname);
+//        this.setLastname(lastname);
+//        this.setNickname(nickname);
 //        this.setMail(mail);
-//    }
-//
-//    public void setId(String input) {
-//        this.id = input;
-//    }
-//
-//    public void setFirstname(String input) {
-//        this.firstName = input;
-//    }
-//
-//    public void setLastname(String input) {
-//        this.lastName = input;
-//    }
-//
-//    public void setNickname(String input) {
-//        this.nickName = input;
-//    }
-//
-//    public void setMail(String input) {
-//        this.mail = input;
-//    }
-//
-//    public String getId() {
-//        return this.id;
-//    }
-//
-//    public String getFirstname() {
-//        return this.firstName;
-//    }
-//
-//    public String getLastname() {
-//        return this.lastName;
-//    }
-//
-//    public String getNickname() {
-//        return this.nickName;
-//    }
-//
-//    public String getMail() {
-//        return this.mail;
-//    }
-//
-//    @Override
-//    public String toString() {
-//        String msg = String.format("ID: %s\nFirstName: %s\nLastName: %s\nNickName: %s\nEmail: %s\n",
-//                this.getId(),
-//                this.getFirstname(),
-//                this.getLastname(),
-//                this.getNickname(),
-//                this.getMail()
-//        );
-//
-//        return msg;
-//    }
+//        this.setAge(age);
+    }
+
+    public void setId(String input) {
+        this.id = input;
+    }
+
+    public void setFirstname(String input) {
+        this.firstname = input;
+    }
+
+    public void setLastname(String input) {
+        this.lastname = input;
+    }
+
+    public void setNickname(String input) {
+        this.nickname = input;
+    }
+
+    public void setMail(String input) {
+        this.mail = input;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getId() {
+        return this.id;
+    }
+
+    public String getFirstname() {
+        return this.firstname;
+    }
+
+    public String getLastname() {
+        return this.lastname;
+    }
+
+    public String getNickname() {
+        return this.nickname;
+    }
+
+    public String getMail() {
+        return this.mail;
+    }
+
+    public int getAge() {
+        return this.age;
+    }
+
+    @Override
+    public String toString() {
+        String msg = String.format("ID: %s\nFirstName: %s\nLastName: %s\nNickName: %s\nEmail: %s\n",
+                this.getId(),
+                this.getFirstname(),
+                this.getLastname(),
+                this.getNickname(),
+                this.getMail()
+        );
+
+        return msg;
+    }
 }

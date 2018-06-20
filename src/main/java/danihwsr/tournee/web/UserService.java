@@ -1,5 +1,6 @@
 package danihwsr.tournee.web;
 
+import danihwsr.tournee.MailAlreadyExistsException;
 import danihwsr.tournee.UserAlreadyExistsException;
 import danihwsr.tournee.UserNotFoundException;
 import org.springframework.stereotype.Service;
@@ -45,11 +46,21 @@ public class UserService {
         return this.userRepository.findAll();
     }
 
-    public List<User> createUser(User user) throws UserAlreadyExistsException {
+    public List<User> createUser(User user) throws
+            UserAlreadyExistsException,
+            MailAlreadyExistsException {
 
-        if ( !this.exists( user ) ) {
-            this.userRepository.save(user);
+        if ( this.userRepository.getByNickname( user.getNickname() ) != null ) {
+            String message = String.format("The username '%s' is already taken.", user.getNickname());
+            throw new UserAlreadyExistsException(message);
         }
+
+        if ( this.userRepository.getByMail( user.getMail() ) != null ) {
+            String message = String.format("The mail address '%s' is already taken.", user.getMail());
+            throw new MailAlreadyExistsException(message);
+        }
+
+        this.userRepository.save(user);
 
         return this.userRepository.findAll();
     }
@@ -60,19 +71,30 @@ public class UserService {
         return this.userRepository.findAll();
     }
 
-    public User updateUser(String id, User user) throws UserNotFoundException, UserAlreadyExistsException {
+    public User updateUser(String id, User user) throws
+            UserNotFoundException,
+            UserAlreadyExistsException,
+            MailAlreadyExistsException {
 
-        if ( !this.exists(user) ) {
-            if ( !this.userRepository.findById(id).isPresent() ) {
-                String msg = String.format("User with id '%s' not found.", id);
-                throw new UserNotFoundException(msg);
-            }
-            try {
-                this.upsert(this.userRepository.findById(id).get(), user);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
+        if ( this.userRepository.getByNickname( user.getNickname() ) != null ) {
+            String message = String.format("The username '%s' is already taken.", user.getNickname());
+            throw new UserAlreadyExistsException(message);
+        }
 
+        if ( this.userRepository.getByMail( user.getMail() ) != null ) {
+            String message = String.format("The mail address '%s' is already taken.", user.getMail());
+            throw new MailAlreadyExistsException(message);
+        }
+
+        if ( !this.userRepository.findById(id).isPresent() ) {
+            String msg = String.format("User with id '%s' not found.", id);
+            throw new UserNotFoundException(msg);
+        }
+
+        try {
+            this.upsert(this.userRepository.findById(id).get(), user);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
 
         return this.userRepository.findById(id).get();
@@ -102,9 +124,13 @@ public class UserService {
 
         for (Map.Entry<String,Method> elem : gas.entrySet() ) {
             if ( elem.getKey().contains("get") && !elem.getKey().contains("id")) {
-                System.out.println("Key = " + elem.getKey() + ", Value = " + elem.getValue().toString() );
                 try {
-                    if ( !elem.getValue().invoke(base).equals(elem.getValue().invoke(update)) && elem.getValue().invoke(update) != null ) {
+                    if ( !elem.getValue().invoke( base ).equals( elem.getValue().invoke( update ) ) &&
+                            elem.getValue().invoke( update ) != null &&
+                            !elem.getValue().invoke( update ).equals( 0 )
+                            )
+                    {
+                        //System.out.println("Key = " + elem.getKey() + ", Value = " + elem.getValue().toString() );
                         String setterKey = elem.getKey().replace("get", "set");
                         gas.get(setterKey).invoke(base, elem.getValue().invoke(update));
                     }
@@ -117,8 +143,7 @@ public class UserService {
         this.userRepository.save(base);
     }
 
-    private static String getFieldName(Method method)
-    {
+    private static String getFieldName(Method method) {
         try {
             Class<?> cl = method.getDeclaringClass();
             BeanInfo info = Introspector.getBeanInfo(cl);
@@ -135,20 +160,6 @@ public class UserService {
         }
 
         return null;
-    }
-
-    private boolean exists(User user) throws UserAlreadyExistsException {
-
-        if ( this.userRepository.getByNickname(user.getNickname()) != null ) {
-            String msg = String.format("The name '%s' is already taken.", user.getNickname());
-            throw new UserAlreadyExistsException(msg);
-        } else if ( this.userRepository.getByMail(user.getMail()) != null ) {
-            String msg = String.format("The mail address '%s' is already in use.", user.getMail());
-            throw new UserAlreadyExistsException(msg);
-        } else {
-            return false;
-        }
-
     }
 
 }
