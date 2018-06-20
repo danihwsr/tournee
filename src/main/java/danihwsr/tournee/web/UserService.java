@@ -23,23 +23,24 @@ public class UserService {
     }
 
     public User getUserById(String id) throws UserNotFoundException {
-        if ( this.userRepository.findById(id).isPresent() ) {
-            return this.userRepository.findById(id).get();
+
+        if ( !this.userRepository.findById(id).isPresent() ) {
+            String msg = String.format("User with id '%s' not found.", id);
+            throw new UserNotFoundException(msg);
         }
 
-        String msg = String.format("User with id '%s' not found.", id);
-        throw new UserNotFoundException(msg);
+        return this.userRepository.findById(id).get();
     }
 
     public User getUserByNickname(String nick) throws UserNotFoundException {
-        User u = this.userRepository.getByNickname(nick);
 
-        if ( u != null ) {
-            return u;
+        if ( !this.userRepository.getByNickname(nick).isPresent() ) {
+            String msg = String.format("User with nickname '%s' not found.", nick);
+            throw new UserNotFoundException(msg);
         }
 
-        String msg = String.format("User with nickname '%s' not found.", nick);
-        throw new UserNotFoundException(msg);
+        return this.userRepository.getByNickname(nick).get();
+
     }
 
     public List<User> getAllUsers() {
@@ -50,12 +51,12 @@ public class UserService {
             UserAlreadyExistsException,
             MailAlreadyExistsException {
 
-        if ( this.userRepository.getByNickname( user.getNickname() ) != null ) {
+        if ( this.userRepository.getByNickname( user.getNickname() ).isPresent() ) {
             String message = String.format("The username '%s' is already taken.", user.getNickname());
             throw new UserAlreadyExistsException(message);
         }
 
-        if ( this.userRepository.getByMail( user.getMail() ) != null ) {
+        if ( this.userRepository.getByMail( user.getMail() ).isPresent() ) {
             String message = String.format("The mail address '%s' is already taken.", user.getMail());
             throw new MailAlreadyExistsException(message);
         }
@@ -76,12 +77,12 @@ public class UserService {
             UserAlreadyExistsException,
             MailAlreadyExistsException {
 
-        if ( this.userRepository.getByNickname( user.getNickname() ) != null ) {
+        if ( this.userRepository.getByNickname( user.getNickname() ).isPresent() ) {
             String message = String.format("The username '%s' is already taken.", user.getNickname());
             throw new UserAlreadyExistsException(message);
         }
 
-        if ( this.userRepository.getByMail( user.getMail() ) != null ) {
+        if ( this.userRepository.getByMail( user.getMail() ).isPresent() ) {
             String message = String.format("The mail address '%s' is already taken.", user.getMail());
             throw new MailAlreadyExistsException(message);
         }
