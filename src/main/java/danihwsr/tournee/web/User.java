@@ -9,11 +9,12 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
-//@Data
-//@NoArgsConstructor
-//@RequiredArgsConstructor
 @Document(collection = "users")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
+@Getter
 public class User {
 
     // @RequiredArgsConstructor: no args constructor needed for this field, hence not final
@@ -37,80 +38,22 @@ public class User {
     //@Size(min = 13, max = 125, message = "Please provide an age beetween 13 and 125.")
     private int age;
 
-    public User(){}
+//    public User(){}
 
-    public User(String firstname, String lastname, String nickname, String mail, int age) {
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.nickname = nickname;
-        this.mail = mail;
-        this.age = age;
+//    public User(String firstname, String lastname, String nickname, String mail, int age) {
+//        this.firstname = firstname;
+//        this.lastname = lastname;
+//        this.nickname = nickname;
+//        this.mail = mail;
+//        this.age = age;
 
 //        this.setFirstname(firstname);
 //        this.setLastname(lastname);
 //        this.setNickname(nickname);
 //        this.setMail(mail);
 //        this.setAge(age);
-    }
+//   }
 
-    public void setId(String input) {
-        this.id = input;
-    }
+//
 
-    public void setFirstname(String input) {
-        this.firstname = input;
-    }
-
-    public void setLastname(String input) {
-        this.lastname = input;
-    }
-
-    public void setNickname(String input) {
-        this.nickname = input;
-    }
-
-    public void setMail(String input) {
-        this.mail = input;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public String getId() {
-        return this.id;
-    }
-
-    public String getFirstname() {
-        return this.firstname;
-    }
-
-    public String getLastname() {
-        return this.lastname;
-    }
-
-    public String getNickname() {
-        return this.nickname;
-    }
-
-    public String getMail() {
-        return this.mail;
-    }
-
-    public int getAge() {
-        return this.age;
-    }
-
-    @Override
-    public String toString() {
-        String msg = String.format("ID: %s\nFirstName: %s\nLastName: %s\nNickName: %s\nEmail: %s\n",
-                this.getId(),
-                this.getFirstname(),
-                this.getLastname(),
-                this.getNickname(),
-                this.getMail()
-        );
-
-        return msg;
-    }
 }

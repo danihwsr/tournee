@@ -15,13 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(UserController.class)
@@ -46,7 +45,23 @@ public class TourneeApplicationTests {
         this.mock.perform(get("/users/all"))
                 .andDo(print())
                 .andExpect(status().isOk())
-        .andExpect(jsonPath("$", hasSize(4)));
+                .andExpect(jsonPath("$", hasSize(4)));
+
+    }
+
+    @Test
+    public void getUserByNicknameShouldReturnUserFromService() throws Exception {
+        String nick = "dooniel";
+        User user = User.builder()
+                .nickname(nick)
+                .build();
+
+        when(service.getUserByNickname( nick )).thenReturn(user);
+
+        this.mock.perform(get("/users/" + nick ))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.nickname", equalToIgnoringCase(nick)));
 
     }
 

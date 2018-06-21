@@ -21,18 +21,37 @@ public class DatabaseSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
-        User u1 = new User(
-                "daniel", "knauser", "dooniel", "dooniel@web.de", 28
-        );
-        User u2 = new User(
-                "max", "mustermann", "xXx_max_xXx", "max@gmail.com", 32
-        );
-        User u3 = new User(
-                "max", "musterfrau", "69_max_69", "maxi@hotmail.de", 18
-        );
-        User u4 = new User(
-                "peter", "meier", "the_meiernator", "meier@peter.org", 56
-        );
+        User u1 = User.builder()
+                .firstname("daniel")
+                .lastname("knauser")
+                .nickname("dooniel")
+                .mail("dooniel@web.de")
+                .age(28)
+                .build();
+
+        User u2 = User.builder()
+                .firstname("max")
+                .lastname("mustermann")
+                .nickname("xXx_max_xXx")
+                .mail("max@gmail.com")
+                .age(32)
+                .build();
+
+        User u3 = User.builder()
+                .firstname("max")
+                .lastname("musterfrau")
+                .nickname("69_max_69")
+                .mail("maxi@hotmail.de")
+                .age(18)
+                .build();
+
+        User u4 = User.builder()
+                .firstname("peter")
+                .lastname("meier")
+                .nickname("the_meiernator")
+                .mail("meier@peter.org")
+                .age(56)
+                .build();
 
         // delete all documents in collection 'users'
         this.userRepository.deleteAll();
