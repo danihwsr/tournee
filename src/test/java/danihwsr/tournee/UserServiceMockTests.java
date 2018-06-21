@@ -1,10 +1,12 @@
 package danihwsr.tournee;
+
 import danihwsr.tournee.web.User;
 import danihwsr.tournee.web.UserController;
-
 import danihwsr.tournee.web.UserService;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -15,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -24,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(UserController.class)
-public class TourneeApplicationTests {
+public class UserServiceMockTests {
 
     @Autowired
     private MockMvc mock;
@@ -61,7 +63,7 @@ public class TourneeApplicationTests {
         this.mock.perform(get("/users/" + nick ))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.nickname", equalToIgnoringCase(nick)));
+                .andExpect(jsonPath("$.nickname", is(nick)));
 
     }
 

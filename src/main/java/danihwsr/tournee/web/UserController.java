@@ -40,7 +40,7 @@ public class UserController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     // try to parse the json object in the request body to a User instance
-    public List<User> createUser(@RequestBody User user) throws Exception {
+    public User createUser(@RequestBody User user) throws Exception {
         return this.userService.createUser(user);
     }
 

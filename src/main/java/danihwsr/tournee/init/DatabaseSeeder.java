@@ -3,12 +3,14 @@ package danihwsr.tournee.init;
 import danihwsr.tournee.web.UserRepository;
 import danihwsr.tournee.web.User;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
 
 @Component
+@Profile("!test")
 // every object that implements command line runner is executed after the spring app has started (beans were created)
 // order command line runners with @Order
 public class DatabaseSeeder implements CommandLineRunner {

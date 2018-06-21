@@ -3,6 +3,10 @@ package danihwsr.tournee.web;
 import danihwsr.tournee.MailAlreadyExistsException;
 import danihwsr.tournee.UserAlreadyExistsException;
 import danihwsr.tournee.UserNotFoundException;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.beans.BeanInfo;
@@ -16,10 +20,14 @@ import java.util.*;
 @Service
 public class UserService {
 
+    // UserDAO
     private UserRepository userRepository;
+    // PasswordEncoder
+    private PasswordEncoder passEncoder;
 
     public UserService(UserRepository userRepository){
         this.userRepository = userRepository;
+        this.passEncoder = new BCryptPasswordEncoder();
     }
 
     public User getUserById(String id) throws UserNotFoundException {
@@ -47,7 +55,7 @@ public class UserService {
         return this.userRepository.findAll();
     }
 
-    public List<User> createUser(User user) throws
+    public User createUser(User user) throws
             UserAlreadyExistsException,
             MailAlreadyExistsException {
 
@@ -61,9 +69,11 @@ public class UserService {
             throw new MailAlreadyExistsException(message);
         }
 
+        user.setPassword(passEncoder.encode(user.getPassword()));
+
         this.userRepository.save(user);
 
-        return this.userRepository.findAll();
+        return this.userRepository.getByNickname(user.getNickname()).get();
     }
 
     public List<User> deleteUser(String id) {
@@ -133,6 +143,9 @@ public class UserService {
                     {
                         //System.out.println("Key = " + elem.getKey() + ", Value = " + elem.getValue().toString() );
                         String setterKey = elem.getKey().replace("get", "set");
+                        if ( setterKey.equals("setPassword") ) {
+                            gas.get(setterKey).invoke(base, passEncoder.encode( (String) elem.getValue().invoke(update) ));
+                        }
                         gas.get(setterKey).invoke(base, elem.getValue().invoke(update));
                     }
                 } catch (Exception e) {

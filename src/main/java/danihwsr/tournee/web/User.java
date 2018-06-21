@@ -33,6 +33,7 @@ public class User {
     //@NotNull(message = "Please provide an email address.")
     //@NonNull
     private String mail;
+    private String password;
     //@NonNull
     //@NotNull()
     //@Size(min = 13, max = 125, message = "Please provide an age beetween 13 and 125.")
