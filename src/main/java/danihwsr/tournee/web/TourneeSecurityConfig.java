@@ -41,6 +41,7 @@ public class TourneeSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity https) throws Exception {
         https
+                .csrf().disable()
                 .authorizeRequests()
                     .antMatchers("/users/create")
                     .hasRole("ADMIN")
