@@ -9,7 +9,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import static danihwsr.tournee.web.Roles.USER;
+import static danihwsr.tournee.web.Roles.ROLE_USER;
 
 @Document(collection = "users")
 @Builder
@@ -37,7 +37,7 @@ public class User {
     private String mail;
     private String password;
     private boolean disabled = false;
-    private Roles[] roles = { USER };
+    private Roles[] roles = { ROLE_USER };
     //@NonNull
     //@NotNull()
     //@Size(min = 13, max = 125, message = "Please provide an age beetween 13 and 125.")

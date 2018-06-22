@@ -34,7 +34,7 @@ public class DatabaseSeeder implements CommandLineRunner {
                 .mail("dooniel@web.de")
                 .password("admin")
                 .age(28)
-                .roles( new Roles[]{Roles.USER, Roles.ADMIN} )
+                .roles( new Roles[]{Roles.ROLE_USER, Roles.ROLE_ADMIN} )
                 .build();
 
         User u2 = User.builder()
