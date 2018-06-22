@@ -4,6 +4,8 @@ import danihwsr.tournee.web.Roles;
 import danihwsr.tournee.web.UserRepository;
 import danihwsr.tournee.web.User;
 import danihwsr.tournee.web.Roles.*;
+import danihwsr.tournee.web.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -17,11 +19,11 @@ import java.util.List;
 // order command line runners with @Order
 public class DatabaseSeeder implements CommandLineRunner {
 
-    private UserRepository userRepository;
+    @Autowired
+    private UserService service;
 
-    public DatabaseSeeder(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public void run(String... strings) throws Exception {
@@ -30,6 +32,7 @@ public class DatabaseSeeder implements CommandLineRunner {
                 .lastname("knauser")
                 .nickname("dooniel")
                 .mail("dooniel@web.de")
+                .password("admin")
                 .age(28)
                 .roles( new Roles[]{Roles.USER, Roles.ADMIN} )
                 .build();
@@ -39,6 +42,7 @@ public class DatabaseSeeder implements CommandLineRunner {
                 .lastname("mustermann")
                 .nickname("xXx_max_xXx")
                 .mail("max@gmail.com")
+                .password("ibims")
                 .age(32)
                 .build();
 
@@ -47,6 +51,7 @@ public class DatabaseSeeder implements CommandLineRunner {
                 .lastname("musterfrau")
                 .nickname("69_max_69")
                 .mail("maxi@hotmail.de")
+                .password("ib1ms")
                 .age(18)
                 .disabled(true)
                 .build();
@@ -56,6 +61,7 @@ public class DatabaseSeeder implements CommandLineRunner {
                 .lastname("meier")
                 .nickname("the_meiernator")
                 .mail("meier@peter.org")
+                .password("user")
                 .age(56)
                 .build();
 
@@ -64,8 +70,9 @@ public class DatabaseSeeder implements CommandLineRunner {
 
         // save to database
         List<User> users = Arrays.asList(u1, u2, u3, u4);
-        this.userRepository.saveAll(users);
-
+        for (User u : users ) {
+            this.service.createUser(u);
+        }
     }
 
 }
