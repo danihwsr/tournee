@@ -1,7 +1,9 @@
 package danihwsr.tournee.init;
 
+import danihwsr.tournee.web.Roles;
 import danihwsr.tournee.web.UserRepository;
 import danihwsr.tournee.web.User;
+import danihwsr.tournee.web.Roles.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -29,6 +31,7 @@ public class DatabaseSeeder implements CommandLineRunner {
                 .nickname("dooniel")
                 .mail("dooniel@web.de")
                 .age(28)
+                .roles( new Roles[]{Roles.USER, Roles.ADMIN} )
                 .build();
 
         User u2 = User.builder()
@@ -45,6 +48,7 @@ public class DatabaseSeeder implements CommandLineRunner {
                 .nickname("69_max_69")
                 .mail("maxi@hotmail.de")
                 .age(18)
+                .disabled(true)
                 .build();
 
         User u4 = User.builder()
