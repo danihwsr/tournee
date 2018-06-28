@@ -1,0 +1,22 @@
+version: '3.3'
+services:
+  mongo:
+    ports:
+      - "27107:27017"
+    image: "mongo:3.6"
+    container_name: "tournee-mongo"
+    volumes:
+      - ${PWD}/mongod.conf:/etc/mongod.conf
+    command: "--config /etc/mongod.conf"
+    tty: true
+    stdin_open: true
+    
+  app:
+    build:
+      context: ./Dockerfile
+      args:
+        app_version: 0.0.1
+        app_env: local
+    container_name: "tournee"
+    ports:
+      - "8080:8080"
