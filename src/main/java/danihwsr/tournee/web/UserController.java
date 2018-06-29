@@ -18,7 +18,7 @@ public class UserController {
     }
 
     // subroute: get /users/all
-    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE )
+    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getAll() {
         // when declaring class attributes as private
         //+ make sure to implement public getters for the attribute
