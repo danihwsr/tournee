@@ -16,9 +16,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Profile("!test")
 public class TourneeSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private UserRepository userRepository;
+
+    public TourneeSecurityConfig(UserRepository userRepository){
+        this.userRepository = userRepository;
+    }
+
     @Bean
     public UserDetailsService userDetailsService() {
-        return new UserDetailsServiceImp();
+        return new UserDetailsServiceImp(this.userRepository);
     }
 
     @Bean
