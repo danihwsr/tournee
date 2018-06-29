@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@Repository
 public interface UserRepository extends MongoRepository<User,String> {
     @Query("{ 'nickName' : ?0, 'mail' : ?1 }")
     User exist(String nickName, String mail);
