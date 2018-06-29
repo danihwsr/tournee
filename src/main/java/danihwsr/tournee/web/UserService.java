@@ -139,15 +139,14 @@ public class UserService {
                     if ( !elem.getValue().invoke( base ).equals( elem.getValue().invoke( update ) ) &&
                             elem.getValue().invoke( update ) != null &&
                             !elem.getValue().invoke( update ).equals( 0 )
-                            )
-                    {
-                        //System.out.println("Key = " + elem.getKey() + ", Value = " + elem.getValue().toString() );
-                        String setterKey = elem.getKey().replace("get", "set");
-                        if ( setterKey.equals("setPassword") ) {
-                            gas.get(setterKey).invoke(base, passEncoder.encode( (String) elem.getValue().invoke(update) ));
-                        }
-                        gas.get(setterKey).invoke(base, elem.getValue().invoke(update));
-                    }
+                       ) {
+                            //System.out.println("Key = " + elem.getKey() + ", Value = " + elem.getValue().toString() );
+                            String setterKey = elem.getKey().replace("get", "set");
+                            if ( setterKey.equals("setPassword") ) {
+                                gas.get(setterKey).invoke(base, passEncoder.encode( (String) elem.getValue().invoke(update) ));
+                            }
+                            gas.get(setterKey).invoke(base, elem.getValue().invoke(update));
+                         }
                 } catch (Exception e) {
                     throw e;
                 }
