@@ -4,9 +4,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserDetailsImp implements UserDetails {
     private User user;
@@ -17,13 +17,11 @@ public class UserDetailsImp implements UserDetails {
 
     @Override
     public List<GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> ga = new ArrayList<>();
 
-        for ( Roles r : this.user.getRoles() ) {
-            ga.add(new SimpleGrantedAuthority( r.toString() ) );
-        }
+         return Arrays.stream(this.user.getRoles())
+            .map( role -> new SimpleGrantedAuthority( role.toString()) )
+            .collect( Collectors.toList() );
 
-        return ga;
     }
 
     @Override
