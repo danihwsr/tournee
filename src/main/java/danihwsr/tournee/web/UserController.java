@@ -1,6 +1,7 @@
 package danihwsr.tournee.web;
 
 import danihwsr.tournee.UserNotFoundException;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class UserController {
     }
 
     // subroute: get /users/all
-    @GetMapping(value = "/all")
+    @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE )
     public List<User> getAll() {
         // when declaring class attributes as private
         //+ make sure to implement public getters for the attribute
@@ -25,22 +26,22 @@ public class UserController {
         return this.userService.getAllUsers();
     }
 
-    @GetMapping(value = "/{nickName}")
+    @GetMapping(value = "/{nickName}", produces = MediaType.APPLICATION_JSON_VALUE)
     public User getUserByNick(@PathVariable String nickName) throws UserNotFoundException {
         return this.userService.getUserByNickname(nickName);
     }
 
-    @PostMapping(value = "/create")
+    @PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON_VALUE)
     public User createUser(@RequestBody User user) throws Exception {
         return this.userService.createUser(user);
     }
 
-    @DeleteMapping(value = "/delete/{userId}")
+    @DeleteMapping(value = "/delete/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> deleteUser(@PathVariable String userId) {
         return this.userService.deleteUser(userId);
     }
 
-    @PutMapping(value = "/update/{userId}")
+    @PutMapping(value = "/update/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public User updateUser(@PathVariable String userId, @RequestBody User user) throws Exception {
         return this.userService.updateUser(userId, user);
     }
