@@ -37,7 +37,7 @@ public class UserController {
     }
 
     @DeleteMapping(value = "/delete/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<User> deleteUser(@PathVariable String userId) {
+    public User deleteUser(@PathVariable String userId) throws UserNotFoundException {
         return this.userService.deleteUser(userId);
     }
 

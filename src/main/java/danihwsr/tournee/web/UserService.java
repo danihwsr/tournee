@@ -5,6 +5,7 @@ import danihwsr.tournee.UserAlreadyExistsException;
 import danihwsr.tournee.UserNotFoundException;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -75,10 +76,17 @@ public class UserService {
         return this.userRepository.getByNickname(user.getNickname()).get();
     }
 
-    public List<User> deleteUser(String id) {
+    public User deleteUser(String id) throws UserNotFoundException {
+
+        String exceptionMsg = String.format("User with id '%s' not found.", id);
+
+        User deletedUser = this.userRepository.findById(id).orElseThrow(
+                () -> new UserNotFoundException(exceptionMsg)
+        );
+
         this.userRepository.deleteById(id);
 
-        return this.userRepository.findAll();
+        return deletedUser;
     }
 
     public User updateUser(String id, User user) throws
