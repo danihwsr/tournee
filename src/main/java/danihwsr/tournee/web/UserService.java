@@ -32,22 +32,21 @@ public class UserService {
 
     public User getUserById(String id) throws UserNotFoundException {
 
-        if ( !this.userRepository.findById(id).isPresent() ) {
-            String msg = String.format("User with id '%s' not found.", id);
-            throw new UserNotFoundException(msg);
-        }
+        String exceptionMsg = String.format("User with id '%s' not found.", id);
 
-        return this.userRepository.findById(id).get();
+        return this.userRepository.findById(id).orElseThrow(
+                () -> new UserNotFoundException(exceptionMsg)
+        );
+
     }
 
     public User getUserByNickname(String nick) throws UserNotFoundException {
 
-        if ( !this.userRepository.getByNickname(nick).isPresent() ) {
-            String msg = String.format("User with nickname '%s' not found.", nick);
-            throw new UserNotFoundException(msg);
-        }
+        String exceptionMsg = String.format("User with nickname '%s' not found.", nick);
 
-        return this.userRepository.getByNickname(nick).get();
+        return this.userRepository.getByNickname(nick).orElseThrow(
+                () -> new UserNotFoundException(exceptionMsg)
+        );
 
     }
 
